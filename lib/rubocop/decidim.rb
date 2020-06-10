@@ -1,4 +1,5 @@
-require "rubocop/decidim/version"
+require 'rubocop/decidim/version'
+require 'yaml'
 
 module RuboCop
   module Decidim

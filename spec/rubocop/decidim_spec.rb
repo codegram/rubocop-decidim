@@ -1,9 +1,7 @@
-RSpec.describe Rubocop::Decidim do
-  it "has a version number" do
-    expect(Rubocop::Decidim::VERSION).not_to be nil
-  end
+# frozen_string_literal: true
 
-  it "does something useful" do
-    expect(false).to eq(true)
+RSpec.describe RuboCop::Decidim do
+  it 'has a version number' do
+    expect(RuboCop::Decidim::VERSION).not_to be nil
   end
 end

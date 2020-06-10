@@ -1,1 +1,6 @@
+Decidim/TranslatedAttribute:
+  Description: 'TODO: Write a description of the cop.'
+  Enabled: true
+  VersionAdded: '0.72'
+
 # Write it!
