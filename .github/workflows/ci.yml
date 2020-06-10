@@ -24,7 +24,9 @@ jobs:
             ${{ runner.OS }}-rubydeps-${{ env.cache-name }}-
             ${{ runner.OS }}-rubydeps-
             ${{ runner.OS }}-
-      - run: bundle install --path vendor/bundle --jobs 4 --retry 3
+      - run: bundle config set path 'vendor/bundle'
+        name: Set Ruby deps path
+      - run: bundle install --jobs 4 --retry 3
         name: Install Ruby deps
       - run: bundle exec rspec
         name: RSpec
