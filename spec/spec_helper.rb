@@ -3,6 +3,8 @@
 require 'rubocop-decidim'
 require 'rubocop/rspec/support'
 
+require 'byebug'
+
 RSpec.configure do |config|
   config.include RuboCop::RSpec::ExpectOffense
 
