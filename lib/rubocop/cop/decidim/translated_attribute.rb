@@ -54,7 +54,7 @@ module RuboCop
               resource = method_param_chain.children[0].source
               attribute_name = method_param_chain.children[1]
 
-              corrector.replace(node, "translated(#{resource}, :#{attribute_name})")
+              corrector.replace(node.loc.expression, "translated(#{resource}, :#{attribute_name})")
             end
           end
         end
