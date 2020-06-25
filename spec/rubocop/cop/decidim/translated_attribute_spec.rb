@@ -27,14 +27,36 @@ RSpec.describe RuboCop::Cop::Decidim::TranslatedAttribute do
 
   it 'autocorrects `#translated_attribute(a.b.c.d.e)` to `#translated(a.b.c.d, :e)`' do
     expect(
-      autocorrect_source('translated_attribute(resource.field)')
-    ).to eq('translated(resource, :field)')
+      autocorrect_source('translated_attribute(a.b.c.d.e)')
+    ).to eq('translated(a.b.c.d, :e)')
   end
 
   it 'does not autocorrect `#translated_attribute(resource)`' do
     expect(
       autocorrect_source('translated_attribute(resource)')
     ).to eq('translated_attribute(resource)')
+  end
+
+  it 'does autocorrect `#translated_attribute(resource.foo).blank?`' do
+    expect(
+      autocorrect_source('translated_attribute(resource.foo).blank?')
+    ).to eq('translated(resource, :foo).blank?')
+  end
+
+  it 'does autocorrect `something.translated_attribute(resource.foo).blank?`' do
+    expect(
+      autocorrect_source('something.translated_attribute(resource.foo).blank?')
+    ).to eq('something.translated(resource, :foo).blank?')
+  end
+
+  it 'does autocorrect `if translated_attribute(resource.foo).blank?`' do
+    expect(
+      autocorrect_source('if translated_attribute(resource.foo).blank?
+    a
+  end')
+    ).to eq('if translated(resource, :foo).blank?
+    a
+  end')
   end
 
   it 'does not register an offense when using `#translated`' do

@@ -39,8 +39,13 @@ module RuboCop
           (send nil? :translated_attribute ...)
         PATTERN
 
+        def_node_matcher :translated_attribute_on_something?, <<-PATTERN
+          (send (send ...) :translated_attribute ...)
+        PATTERN
+
         def on_send(node)
-          return unless translated_attribute?(node)
+          return unless translated_attribute?(node) ||
+                        translated_attribute_on_something?(node)
 
           add_offense(node)
         end
@@ -49,14 +54,21 @@ module RuboCop
           lambda do |corrector|
             method_param_chain = node.children[2]
             chain_ast = method_param_chain.children
+            context = node.children[0]
 
             if chain_ast[0]
               resource = method_param_chain.children[0].source
               attribute_name = method_param_chain.children[1]
 
-              corrector.replace(node.loc.expression, "translated(#{resource}, :#{attribute_name})")
+              corrector.replace(node.loc.expression, "#{chain_from(context)}(#{resource}, :#{attribute_name})")
             end
           end
+        end
+
+        def chain_from(context)
+          return "#{context.source}.translated" if context
+
+          'translated'
         end
       end
     end
